@@ -100,4 +100,24 @@ public class PresenterTest {
         verify(mockView, times(2)).showInputError();
     }
 
+    @Test
+    public void shouldBeAbleToSaveAValidUser(){
+        when(mockView.getFirstName()).thenReturn("Dana");
+        when(mockView.getLastName()).thenReturn("Scully");
+
+        presenter.saveUser();
+
+        //Called two more times in the saveUser call
+        verify(mockView, times(2)).getFirstName();
+        verify(mockView, times(2)).getLastName();
+
+        //Make sure the repository saved the user
+        verify(mockLoginModel, times(1)).createUser("Dana", "Scully");
+
+        //Make sure the view showed the user saved message
+        verify(mockView, times(1)).showUserSavedMessage();
+
+
+    }
+
 }
